@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WCPS.Data.Model\WCPS.Data.Model.csproj" />
+    <ProjectReference Include="..\WCPS.Repository.Contract\WCPS.Repository.Contract.csproj" />
+    <ProjectReference Include="..\WCPS.Repository\WCPS.Repository.csproj" />
+    <ProjectReference Include="..\WCPS.Service.Contract\WCPS.Service.Contract.csproj" />
+  </ItemGroup>
+
+</Project>

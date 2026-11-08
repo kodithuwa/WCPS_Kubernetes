@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+COPY WCPS.API/WCPS.API.csproj WCPS.API/
+COPY WCPS.DATA/WCPS.Data.csproj WCPS.DATA/
+COPY WCPS.Data.Model/WCPS.Data.Model.csproj WCPS.Data.Model/
+COPY WCPS.Repository/WCPS.Repository.csproj WCPS.Repository/
+COPY WCPS.Repository.Contract/WCPS.Repository.Contract.csproj WCPS.Repository.Contract/
+COPY WCPS.Service.Contract/WCPS.Service.Contract.csproj WCPS.Service.Contract/
+COPY WCPS.Service.Model/WCPS.Service.Model.csproj WCPS.Service.Model/
+COPY WCPS.Services/WCPS.Service.csproj WCPS.Services/
+RUN dotnet restore WCPS.API/WCPS.API.csproj
+COPY . .
+RUN dotnet publish WCPS.API/WCPS.API.csproj -c Release -o /out --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080 ASPNETCORE_HTTP_PORTS=8080
+EXPOSE 8080
+COPY --from=build /out .
+USER $APP_UID
+ENTRYPOINT ["dotnet", "WCPS.API.dll"]

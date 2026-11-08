@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="AutoMapper" Version="16.3.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WCPS.DATA\WCPS.Data.csproj" />
+		<ProjectReference Include="..\WCPS.Repository\WCPS.Repository.csproj" />
+		<ProjectReference Include="..\WCPS.Service.Contract\WCPS.Service.Contract.csproj" />
+		<ProjectReference Include="..\WCPS.Services\WCPS.Service.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+FROM node:22-alpine AS client-build
+WORKDIR /src/WCPS.WEB/wcps.web.client
+COPY WCPS.WEB/wcps.web.client/package*.json ./
+RUN npm ci
+COPY WCPS.WEB/wcps.web.client/ ./
+RUN npm run build
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS server-build
+WORKDIR /src
+COPY WCPS.WEB/WCPS.WEB.Server/WCPS.WEB.Server.csproj WCPS.WEB/WCPS.WEB.Server/
+COPY WCPS.WEB/wcps.web.client/wcps.web.client.esproj WCPS.WEB/wcps.web.client/
+COPY . .
+COPY --from=client-build /src/WCPS.WEB/wcps.web.client/dist/ WCPS.WEB/WCPS.WEB.Server/wwwroot/
+RUN dotnet publish WCPS.WEB/WCPS.WEB.Server/WCPS.WEB.Server.csproj -c Release -o /out
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080 ASPNETCORE_HTTP_PORTS=8080
+EXPOSE 8080
+COPY --from=server-build /out .
+USER $APP_UID
+ENTRYPOINT ["dotnet", "WCPS.WEB.Server.dll"]
