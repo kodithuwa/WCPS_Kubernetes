@@ -1,4 +1,4 @@
-# WCPS
+# WCPS on Kubernetes
 
 WCPS is a .NET solution for a product catalog backend, with a React/Vite web client scaffold. The backend is split into API, service, repository, and data projects so HTTP handling, application operations, persistence, and database entities have separate responsibilities.
 
@@ -27,20 +27,20 @@ WCPS.Data.Model (database entities)
 
 ### Projects
 
-| Project | Responsibility |
-| --- | --- |
-| `WCPS.API` | Main ASP.NET Core API host. Configures SQL Server, dependency injection, controllers, and development Swagger. |
-| `WCPS.Service.Contract` | Service interfaces, including `IProductService`. |
-| `WCPS.Services` | Product service implementation; calls repository operations through `IUnitOfWork`. |
-| `WCPS.Repository.Contract` | Repository and unit-of-work interfaces. |
-| `WCPS.Repository` | EF-backed product repository, repository factory, unit of work, and AutoMapper profile. |
-| `WCPS.DATA` | EF Core `StorageContext`, migrations, SQL Server and Identity configuration. |
-| `WCPS.Data.Model` | Persistence entities, currently including `Product`. |
-| `WCPS.Service.Model` | Product model used by service and repository APIs. |
+| Project                    | Responsibility                                                                                                                                                         |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WCPS.API`                 | Main ASP.NET Core API host. Configures SQL Server, dependency injection, controllers, and development Swagger.                                                         |
+| `WCPS.Service.Contract`    | Service interfaces, including `IProductService`.                                                                                                                       |
+| `WCPS.Services`            | Product service implementation; calls repository operations through `IUnitOfWork`.                                                                                     |
+| `WCPS.Repository.Contract` | Repository and unit-of-work interfaces.                                                                                                                                |
+| `WCPS.Repository`          | EF-backed product repository, repository factory, unit of work, and AutoMapper profile.                                                                                |
+| `WCPS.DATA`                | EF Core `StorageContext`, migrations, SQL Server and Identity configuration.                                                                                           |
+| `WCPS.Data.Model`          | Persistence entities, currently including `Product`.                                                                                                                   |
+| `WCPS.Service.Model`       | Product model used by service and repository APIs.                                                                                                                     |
 | `WCPS.WEB/WCPS.WEB.Server` | ASP.NET Core host configured with SPA proxy support for the Vite client. It currently has only a weather sample controller and does not register the product services. |
-| `WCPS.WEB/wcps.web.client` | React 19, TypeScript, and Vite client. Currently displays the weather sample, not product data. |
-| `WCPSWeb/WCPSWeb.Server` | Separate .NET 8 web/API template project; not part of the configured launch profile. |
-| `WCPS.Console` | Console template project; currently prints `Hello, World!`. |
+| `WCPS.WEB/wcps.web.client` | React 19, TypeScript, and Vite client. Currently displays the weather sample, not product data.                                                                        |
+| `WCPSWeb/WCPSWeb.Server`   | Separate .NET 8 web/API template project; not part of the configured launch profile.                                                                                   |
+| `WCPS.Console`             | Console template project; currently prints `Hello, World!`.                                                                                                            |
 
 ## Product request flow
 
@@ -48,11 +48,11 @@ The API registers `StorageContext`, `IProductRepository`, `IRepositoryFactory`, 
 
 The current product endpoints are:
 
-| Method | Route | Behavior |
-| --- | --- | --- |
-| `GET` | `/WeatherForecast/products` | Returns products, or `404` if none are found. |
-| `POST` | `/WeatherForecast/product` | Creates a product and returns `201` on success. |
-| `GET` | `/WeatherForecast` | Returns sample weather data from the ASP.NET template. |
+| Method | Route                       | Behavior                                               |
+| ------ | --------------------------- | ------------------------------------------------------ |
+| `GET`  | `/WeatherForecast/products` | Returns products, or `404` if none are found.          |
+| `POST` | `/WeatherForecast/product`  | Creates a product and returns `201` on success.        |
+| `GET`  | `/WeatherForecast`          | Returns sample weather data from the ASP.NET template. |
 
 The React client currently calls `weatherforecast`; it has not yet been wired to the product endpoints. The product endpoints also currently live in the weather sample controller, so a future API cleanup could move them to a dedicated products controller.
 
@@ -166,7 +166,7 @@ Open a **second PowerShell window** and start port forwarding:
   kubectl port-forward -n wcps service/wcps-api 9000:8080
 ```
 
-  Keep that command running, then open <http://localhost:9000/swagger> in your browser. The same API is available at <http://localhost:9000/WeatherForecast>. Stop port forwarding later with `Ctrl+C`. Product endpoints are under `/WeatherForecast/products` and `/WeatherForecast/product`; they require the database schema to have been created.
+Keep that command running, then open <http://localhost:9000/swagger> in your browser. The same API is available at <http://localhost:9000/WeatherForecast>. Stop port forwarding later with `Ctrl+C`. Product endpoints are under `/WeatherForecast/products` and `/WeatherForecast/product`; they require the database schema to have been created.
 
 ### Update the API after changing code
 
